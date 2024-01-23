@@ -327,3 +327,17 @@ a.navbar-brand {
     color: var(--color-black-heavy) !important;
     margin-top: 20px;
 }
+
+.depoimentos {
+    padding-top: 100px;
+    padding-bottom: 150px;
+}
+
+.card-depoimentos {
+    height: 390px;
+    width: 390px;
+    border-radius: 120px;
+    background-color: var(--color-secondary);
+    position: absolute;
+    left: 0;
+}
