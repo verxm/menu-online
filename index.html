@@ -477,8 +477,8 @@
         <div class="m-body">
             <div class="container">
 
-                <div id="itensCarrinho" class="row mr-0 ml-0">
-                    
+                <div id="itensCarrinho" class="row mr-0 ml-0 hidden">
+
                     <div class="col-12 item-carrinho">
                         <div class="img-produto">
                             <img src="./img/cardapio/burguers/burger-au-poivre-kit-4-pack.3ca0e39b02db753304cd185638dad518.jpg">
@@ -497,7 +497,60 @@
 
                 </div>
 
-                <div id="localEntrega" class="row mr-0 ml-0 hidden">
+                <div id="localEntrega" class="row mr-0 ml-0">
+
+                    <div class="col-4">
+                        <div class="form-group container-cep">
+                            <label for="">CEP:</label>
+                            <input id="txtCEP" class="form-control" type="text">
+                            <a class="btn btn-yellow btn-sm">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </div>
+                        
+                    </div>
+                    <div class="col-8"></div>
+
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Endereço:</label>
+                            <input id="txtEndereço" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label>Bairro:</label>
+                            <input id="txtBairro" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label>Número:</label>
+                            <input id="txtNumero" class="form-control" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Cidade:</label>
+                            <input id="txtCidade" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label>Complemento:</label>
+                            <input id="txtComplemento" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label>UF:</label>
+                            <select id="ddlUf" class="form-control">
+                                <option value="-1">...</option>
+                                <!-- TODO: trazer UFs para cá -->
+                            </select>
+                        </div>
+                    </div>
 
                 </div>
 
