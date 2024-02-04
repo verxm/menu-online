@@ -1,8 +1,14 @@
+var MENU_PAGE_ITENS_LIMIT = 8;
+
 $(document).ready(function () {
     menu.events.Init();
 });
 
-// TODO: Refatorar para sparar propriedades desse objeto. Não fazem sentido estarem em um objeto para mim. Está gerando referência circular para o mesmo objeto.
+function MenuFilterButtonsOnClick(element) {
+    var buttonCategory = $(element).attr('category');
+    menu.GetMenuItens(buttonCategory);
+}
+
 var menu = {
     events: {
         Init: () => {
@@ -32,23 +38,37 @@ var menu = {
                 </div>
             </div>`,
     },
-
-    // TODO: Adicionar documentação de método aqui (pesquisar lib)
-    // Get all menu itens list
     GetMenuItens: (category = 'burgers') => {
-        var menuItens = MENU[category]
+        let menuItens = MENU[category]
+            .slice(0, MENU_PAGE_ITENS_LIMIT);
 
         $('#itensCardapio').html('');
 
-        $.each(menuItens, (i, menuItem) => {
-            let menuItemComponent = menu
-                .components
-                .CreateMenuItemComponent(menuItem);
-
-            $('#itensCardapio').append(menuItemComponent);
-        });
+        AddMenuItensComponents(menuItens);
 
         $('.container-menu a').removeClass('active');
-        $('#menu-' + category).addClass('active')
+        $('#menu-' + category).addClass('active');
+
+        $('#btnViewMore').removeClass('hidden');
+    },
+    SeeMoreMenuItens: () => {
+        let currentActiveCategory = $('.container-menu a.active').attr('category');
+
+        let menuItens = MENU[currentActiveCategory]
+            .slice(MENU_PAGE_ITENS_LIMIT, MENU[currentActiveCategory].length);
+
+        AddMenuItensComponents(menuItens);
+
+        $('#btnViewMore').addClass('hidden');
     }
 };
+
+function AddMenuItensComponents(menuItens) {
+    $.each(menuItens, (i, menuItem) => {
+        let menuItemComponent = menu
+            .components
+            .CreateMenuItemComponent(menuItem);
+
+        $('#itensCardapio').append(menuItemComponent);
+    });
+}

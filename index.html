@@ -171,25 +171,25 @@
                     </h1>
                 </div>
                 <div class="col-12 container-menu">
-                    <a id="menu-burgers" class="btn active btn-white btn-sm mr-3" onclick="menu.GetMenuItens('burgers')">
+                    <a id="menu-burgers" class="btn active btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="burgers">
                         <i class="fas fa-hamburger"></i>&nbsp; Burgers
                     </a>
 
-                    <a id="menu-pizzas" class="btn btn-white btn-sm mr-3" onclick="menu.GetMenuItens('pizzas')">
+                    <a id="menu-pizzas" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="pizzas">
                         <i class="fas fa-pizza-slice"></i>&nbsp; Pizzas
                     </a>
 
-                    <a id="menu-churrasco" class="btn btn-white btn-sm mr-3" onclick="menu.GetMenuItens('churrasco')">
+                    <a id="menu-churrasco" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="churrasco">
                         <i class="fas fa-drumstick-bite"></i>&nbsp; Churrasco
                     </a>
 
-                    <a id="menu-steaks" class="btn btn-white btn-sm mr-3" onclick="menu.GetMenuItens('steaks')">
+                    <a id="menu-steaks" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="steaks">
                         <i class="fas fa-bacon"></i>&nbsp; Steaks
                     </a>
-                    <a id="menu-bebidas" class="btn btn-white btn-sm mr-3" onclick="menu.GetMenuItens('bebidas')">
+                    <a id="menu-bebidas" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="bebidas">
                         <i class="fas fa-cocktail"></i>&nbsp; Bebidas
                     </a>
-                    <a id="menu-sobremesas" class="btn btn-white btn-sm mr-3" onclick="menu.GetMenuItens('sobremesas')">
+                    <a id="menu-sobremesas" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="sobremesas">
                         <i class="fas fa-ice-cream"></i>&nbsp; Sobremesas
                     </a>
                 </div>
@@ -200,7 +200,7 @@
                     </div>
                 </div>
                 <div class="col-12 text-center">
-                    <a class="btn btn-white btn-sm" href="">Ver mais</a>
+                    <a id="btnViewMore" class="btn btn-white btn-sm" onclick="menu.SeeMoreMenuItens()">Ver mais</a>
                 </div>
             </div>
         </div>
