@@ -1,4 +1,5 @@
 var MENU_PAGE_ITENS_LIMIT = 8;
+var MY_CART = [];
 
 $(document).ready(function () {
     menu.events.Init();
@@ -18,7 +19,7 @@ var menu = {
     components: {
         CreateMenuItemComponent: (menuItem) => `
             <div class="col-3 mb-5">
-                <div class="card card-item">
+                <div class="card card-item" id="${menuItem.id}">
                     <div class="img-produto">
                         <img src="${menuItem.img}"
                             alt="" />
@@ -30,9 +31,9 @@ var menu = {
                         <b>R$ ${menuItem.price.toFixed(2).replace('.', ',')}</b>
                     </p>
                     <div class="add-carrinho">
-                        <span class="btn-menos"><i class="fas fa-minus"></i></span>
-                        <span class="add-numero-itens">0</span>
-                        <span class="btn-mais"><i class="fas fa-plus"></i></span>
+                        <span class="btn-menos" onclick="menu.DecreaseItemQuantity('${menuItem.id}')"><i class="fas fa-minus"></i></span>
+                        <span class="add-numero-itens" id="qntd-${menuItem.id}">0</span>
+                        <span class="btn-mais" onclick="menu.IncreaseItemQuantity('${menuItem.id}')"><i class="fas fa-plus"></i></span>
                         <span class="btn btn-add"><i class="fa fa-shopping-bag"></i></span>
                     </div>
                 </div>
@@ -60,6 +61,24 @@ var menu = {
         AddMenuItensComponents(menuItens);
 
         $('#btnViewMore').addClass('hidden');
+    },
+    DecreaseItemQuantity: (menuItemId) => {
+        let currentAmount = parseInt(
+            $('#qntd-' + menuItemId).text()
+        );
+
+        if (currentAmount == 0) {
+            return;
+        }
+
+        $('#qntd-' + menuItemId).text(currentAmount - 1);
+    },
+    IncreaseItemQuantity: (menuItemId) => {
+        let currentAmount = parseInt(
+            $('#qntd-' + menuItemId).text()
+        );
+
+        $('#qntd-' + menuItemId).text(currentAmount + 1);
     }
 };
 
