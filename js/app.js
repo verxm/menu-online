@@ -7,6 +7,15 @@ function MenuFilterButtonsOnClick(element) {
     menu.GetMenuItens(buttonCategory);
 }
 
+function OpenCart(open) {
+    if (open){
+        $('#modalCarrinho').removeClass('hidden');
+    }
+    else {
+        $('#modalCarrinho').addClass('hidden');
+    }
+}
+
 var MENU_PAGE_ITENS_LIMIT = 8;
 var menu = {
     events: {

@@ -16,7 +16,7 @@
 <body>
     <div class="container-mensagens" id="container-mensagens"></div>
 
-    <a class="cart-button hidden">
+    <a class="cart-button hidden" onclick="OpenCart(true)">
         <div class="badge-total-carrinho">0</div>
         <i class="fa fa-shopping-bag"></i>
     </a>
@@ -55,7 +55,7 @@
                             </a>
                         </li>
                     </ul>
-                    <a class="btn btn-white btn-icon" href="">
+                    <a class="btn btn-white btn-icon" onclick="OpenCart(true)">
                         Meu carrinho <span class="icon">
                             <div class="container-total-carrinho badge-total-carrinho hidden">0</div>
                             <i class="fa fa-shopping-bag"></i>
@@ -398,7 +398,7 @@
     <div class="modal-full hidden" id="modalCarrinho">
         <div class="m-header">
             <div class="container">
-                <a class="btn btn-white btn-sm float-right">
+                <a class="btn btn-white btn-sm float-right" onclick="OpenCart(false)">
                     Fechar
                 </a>
                 <div class="etapas">
