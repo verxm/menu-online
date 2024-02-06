@@ -43,7 +43,7 @@ var menu = {
 
         $('#itensCardapio').html('');
 
-        AddMenuItensComponents(menuItens);
+        menu.AddItemComponents(menuItens);
 
         $('.container-menu a').removeClass('active');
         $('#menu-' + category).addClass('active');
@@ -56,9 +56,18 @@ var menu = {
         let menuItens = MENU[currentActiveCategory]
             .slice(MENU_PAGE_ITENS_LIMIT, MENU[currentActiveCategory].length);
 
-        AddMenuItensComponents(menuItens);
+            menu.AddItemComponents(menuItens);
 
         $('#btnViewMore').addClass('hidden');
+    },
+    AddItemComponents: (menuItens) => {
+        $.each(menuItens, (i, menuItem) => {
+            let menuItemComponent = menu
+                .components
+                .CreateMenuItemComponent(menuItem);
+    
+            $('#itensCardapio').append(menuItemComponent);
+        });
     },
     GetCurrentActiveCategory: () => {
         return $('.container-menu a.active').attr('category');
@@ -81,16 +90,20 @@ var menu = {
         let currentAmount = menu.GetItemCurrentAmount(menuItemId);
 
         if (currentAmount == 0) {
-            console.log('It is not possible to add an item without quantity to the cart.');
+            NotifyError('Não é possível adicionar um item sem quantidade ao carrinho');
             return;
         }
 
-        cart.AddItem({
+        var addedMenuItem = cart.AddItem({
             menuItemId: menuItemId,
             amount: currentAmount
         });
 
+        cart.UpdateTotal();
+
         menu.ResetItemAmount(menuItemId);
+
+        NotifySuccess(`${currentAmount} ${addedMenuItem.name} adicionado(s) ao carrinho.`);
     },
     GetItemCurrentAmount: (menuItemId) => {
         return parseInt(
@@ -107,17 +120,17 @@ var CART_ITENS = [];
 var cart = {
     AddItem: ({menuItemId, amount}) => {
         if (cart.AlreadyInCart(menuItemId)) {
-            cart.UpdateItem({
+            let updatedCartItem = cart.UpdateItem({
                 menuItemId: menuItemId,
                 amount: amount
             });
 
-            return;
+            return updatedCartItem;
         }
 
         let currentActiveCategory = menu.GetCurrentActiveCategory();
 
-        var menuItem = GetMenuItemDataById({
+        let menuItem = GetMenuItemDataById({
             category: currentActiveCategory,
             menuItemId: menuItemId
         });
@@ -125,6 +138,8 @@ var cart = {
         menuItem.amount = amount; 
 
         CART_ITENS.push(menuItem);
+
+        return menuItem;
     },
     AlreadyInCart: (menuItemId) => {
         return $.grep(CART_ITENS, (menuItem, i) => {
@@ -134,17 +149,35 @@ var cart = {
     UpdateItem: ({menuItemId, amount}) => {
         let menuItemCartIndex = CART_ITENS.findIndex((obj => obj.id == menuItemId))
         CART_ITENS[menuItemCartIndex].amount += amount;
-    }
-}
 
-function AddMenuItensComponents(menuItens) {
-    $.each(menuItens, (i, menuItem) => {
-        let menuItemComponent = menu
-            .components
-            .CreateMenuItemComponent(menuItem);
+        return CART_ITENS[menuItemCartIndex];
+    },
+    UpdateTotal: () => {
+        var total = cart.GetTotal();
 
-        $('#itensCardapio').append(menuItemComponent);
-    });
+        cart.UpdateTotalValueDisplayed(total);
+    },
+    GetTotal: () => {
+        let result = 0;
+        $.each(CART_ITENS, (i, e) => {
+            result += e.amount;
+        });
+
+        return result;
+    },
+    UpdateTotalValueDisplayed: (total) => {
+        if (total > 0) {
+            $('.cart-button').removeClass('hidden');
+            $('.container-total-carrinho').removeClass('hidden');
+        }
+        else {
+            $('.cart-button').addClass('hidden');
+            $('.container-total-carrinho').addClass('hidden');
+        }
+
+        $('.badge-total-carrinho').html(total);
+    },
+
 }
 
 function GetMenuItemDataById({ category, menuItemId }) {
@@ -153,4 +186,38 @@ function GetMenuItemDataById({ category, menuItemId }) {
     return $.grep(menuItens, (menuItem, i) => {
         return menuItem.id == menuItemId
     })[0];
+}
+
+var SUCCESS_COLOR_CLASS_NAME = 'green';
+function NotifySuccess(message, timeInMs = 3500) {
+    NotifyUser({
+        message: message,
+        color: SUCCESS_COLOR_CLASS_NAME,
+        timeInMs: timeInMs
+    });
+}
+
+var ERROR_COLOR_CLASS_NAME = 'red';
+function NotifyError(message, timeInMs = 3500) {
+    NotifyUser({
+        message: message,
+        color: ERROR_COLOR_CLASS_NAME,
+        timeInMs: timeInMs
+    });
+}
+
+function NotifyUser({ message, timeInMs, color }) {
+    let randomId = Math.floor(Date.now() * Math.random()).toString();
+
+    let messageComponent = `<div id="msg-${randomId}" class="animated fadeInDown toast ${color}">${message}</div>`;
+    $('#container-mensagens').append(messageComponent);
+
+    setTimeout(() => {
+        $('#msg-' + randomId).removeClass('fadeInDown');
+        $('#msg-' + randomId).addClass('fadeOutUp');
+
+        setTimeout(() => {
+            $('#msg-' + randomId).remove();
+        }, 800);
+    }, timeInMs);
 }

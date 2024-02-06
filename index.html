@@ -8,11 +8,19 @@
     <link rel="stylesheet" href="./css/bootstrap.min.css" />
     <link rel="stylesheet" href="./css/fontawesome.css" />
     <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/animate.css" />
 
     <title>Menu Online - by ve7xm</title>
 </head>
 
 <body>
+    <div class="container-mensagens" id="container-mensagens"></div>
+
+    <a class="cart-button hidden">
+        <div class="badge-total-carrinho">0</div>
+        <i class="fa fa-shopping-bag"></i>
+    </a>
+
     <section class="header">
         <div class="container">
             <nav class="navbar navbar-expand-lg pl-0 pr-0">
@@ -49,6 +57,7 @@
                     </ul>
                     <a class="btn btn-white btn-icon" href="">
                         Meu carrinho <span class="icon">
+                            <div class="container-total-carrinho badge-total-carrinho hidden">0</div>
                             <i class="fa fa-shopping-bag"></i>
                         </span>
                     </a>
@@ -171,32 +180,38 @@
                     </h1>
                 </div>
                 <div class="col-12 container-menu">
-                    <a id="menu-burgers" class="btn active btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="burgers">
+                    <a id="menu-burgers" class="btn active btn-white btn-sm mr-3"
+                        onclick="MenuFilterButtonsOnClick(this)" category="burgers">
                         <i class="fas fa-hamburger"></i>&nbsp; Burgers
                     </a>
 
-                    <a id="menu-pizzas" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="pizzas">
+                    <a id="menu-pizzas" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)"
+                        category="pizzas">
                         <i class="fas fa-pizza-slice"></i>&nbsp; Pizzas
                     </a>
 
-                    <a id="menu-churrasco" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="churrasco">
+                    <a id="menu-churrasco" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)"
+                        category="churrasco">
                         <i class="fas fa-drumstick-bite"></i>&nbsp; Churrasco
                     </a>
 
-                    <a id="menu-steaks" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="steaks">
+                    <a id="menu-steaks" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)"
+                        category="steaks">
                         <i class="fas fa-bacon"></i>&nbsp; Steaks
                     </a>
-                    <a id="menu-bebidas" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="bebidas">
+                    <a id="menu-bebidas" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)"
+                        category="bebidas">
                         <i class="fas fa-cocktail"></i>&nbsp; Bebidas
                     </a>
-                    <a id="menu-sobremesas" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)" category="sobremesas">
+                    <a id="menu-sobremesas" class="btn btn-white btn-sm mr-3" onclick="MenuFilterButtonsOnClick(this)"
+                        category="sobremesas">
                         <i class="fas fa-ice-cream"></i>&nbsp; Sobremesas
                     </a>
                 </div>
 
                 <div class="col-12">
                     <div class="row" id="itensCardapio">
-                        
+
                     </div>
                 </div>
                 <div class="col-12 text-center">
