@@ -10,6 +10,7 @@ function MenuFilterButtonsOnClick(element) {
 function OpenCart(open) {
     if (open){
         $('#modalCarrinho').removeClass('hidden');
+        cart.LoadStep(cart.Steps.CART_STEP);
     }
     else {
         $('#modalCarrinho').addClass('hidden');
@@ -186,7 +187,77 @@ var cart = {
 
         $('.badge-total-carrinho').html(total);
     },
+    BackStep: () => {
+        let step = $('.etapa.active').length;
 
+        let targetStepNumber = step - 1;
+        let stepName = $('.etapa' + targetStepNumber).attr('step-name');
+
+        cart.LoadStep(stepName);
+    },
+    LoadStep : (step) => {
+        cart
+            .StepHandlers[step]
+            .Load();
+    },
+    Steps: {
+        CART_STEP: 'CartStep',
+        ADDRESS_STEP: 'AddressStep',
+        SUMMARY_STEP: 'SummaryStep'
+    },
+    StepHandlers: {
+        'CartStep': {
+            Load: () => {
+                $('#lblTituloEtapa').text('Seu carrinho:');
+                $('#itensCarrinho').removeClass('hidden');
+                $('#localEntrega').addClass('hidden');
+                $('#resumoCarrinho').addClass('hidden');
+
+                $('.etapa').removeClass('active');
+                $('.etapa1').addClass('active');
+
+                $('#btnEtapaPedido').removeClass('hidden');
+                $('#btnEtapaEndereco').addClass('hidden');
+                $('#btnEtapaResumo').addClass('hidden');
+                $('#btnVoltar').addClass('hidden');
+            }
+        },
+        'AddressStep': {
+            Load: () => {
+                $('#lblTituloEtapa').text('Endereço de entrega:');
+                $('#itensCarrinho').addClass('hidden');
+                $('#localEntrega').removeClass('hidden');
+                $('#resumoCarrinho').addClass('hidden');
+
+                $('.etapa').removeClass('active');
+                $('.etapa1').addClass('active');
+                $('.etapa2').addClass('active');
+
+                $('#btnEtapaEndereco').removeClass('hidden');
+                $('#btnVoltar').removeClass('hidden');
+                $('#btnEtapaPedido').addClass('hidden');
+                $('#btnEtapaResumo').addClass('hidden');
+            }
+        },
+        'SummaryStep': {
+            Load: () => {
+                $('#lblTituloEtapa').text('Resumo do pedido:');
+                $('#itensCarrinho').addClass('hidden');
+                $('#localEntrega').addClass('hidden');
+                $('#resumoCarrinho').removeClass('hidden');
+
+                $('.etapa').removeClass('active');
+                $('.etapa1').addClass('active');
+                $('.etapa2').addClass('active');
+                $('.etapa3').addClass('active');
+
+                $('#btnEtapaResumo').removeClass('hidden');
+                $('#btnVoltar').removeClass('hidden');
+                $('#btnEtapaEndereco').addClass('hidden');
+                $('#btnEtapaPedido').addClass('hidden');
+            }
+        },
+    },
 }
 
 function GetMenuItemDataById({ category, menuItemId }) {

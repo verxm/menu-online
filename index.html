@@ -402,9 +402,9 @@
                     Fechar
                 </a>
                 <div class="etapas">
-                    <div class="etapa etapa1 active">1</div>
-                    <div class="etapa etapa2">2</div>
-                    <div class="etapa etapa3">3</div>
+                    <div class="etapa etapa1 active" step-name="CartStep">1</div>
+                    <div class="etapa etapa2" step-name="AddressStep">2</div>
+                    <div class="etapa etapa3" step-name="SummaryStep">3</div>
                 </div>
                 <p class="title-carrinho mt-4">
                     <b id="lblTituloEtapa">Seu carrinho:</b>
@@ -519,7 +519,7 @@
 
                 </div>
 
-                <div id="resumoCarrinho" class="row mr-0 ml-0">
+                <div id="resumoCarrinho" class="row mr-0 ml-0 hidden">
                     <div class="col-12">
                         <p class="title-carrinh mt-4">
                             <b>Itens do pedido:</b>
@@ -591,11 +591,11 @@
                     </p>
                 </div>
 
-                <a id="btnEtapaPedido" class="btn btn-yellow float-right">
+                <a id="btnEtapaPedido" class="btn btn-yellow float-right" onclick="cart.LoadStep(cart.Steps.ADDRESS_STEP);">
                     Continuar
                 </a>
 
-                <a id="btnEtapaEndereco" class="btn btn-yellow float-right hidden">
+                <a id="btnEtapaEndereco" class="btn btn-yellow float-right hidden" onclick="cart.LoadStep(cart.Steps.SUMMARY_STEP);">
                     Revisar pedido
                 </a>
 
@@ -603,7 +603,7 @@
                     Enviar pedido
                 </a>
 
-                <a id="btnVoltar" class="btn btn-white float-right mr-3 hidden">
+                <a id="btnVoltar" class="btn btn-white float-right mr-3 hidden" onclick="cart.BackStep();">
                     Voltar
                 </a>
             </div>
