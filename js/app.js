@@ -10,7 +10,7 @@ function MenuFilterButtonsOnClick(element) {
 function OpenCart(open) {
     if (open){
         $('#modalCarrinho').removeClass('hidden');
-        cart.LoadStep(cart.Steps.CART_STEP);
+        cart.LoadItems();
     }
     else {
         $('#modalCarrinho').addClass('hidden');
@@ -36,7 +36,7 @@ var menu = {
                         <b>${menuItem.name}</b>
                     </p>
                     <p class="price-produto text-center">
-                        <b>R$ ${menuItem.price.toFixed(2).replace('.', ',')}</b>
+                        <b>R$ ${NormalizePrice(menuItem.price)}</b>
                     </p>
                     <div class="add-carrinho">
                         <span class="btn-menos" onclick="menu.DecreaseItemAmount('${menuItem.id}')"><i class="fas fa-minus"></i></span>
@@ -128,11 +128,34 @@ var menu = {
 
 var CART_ITENS = [];
 var cart = {
+    components: {
+        CreateCartItemComponent: (cartItem) => {
+            return `
+                <div class="col-12 item-carrinho">
+                    <div class="img-produto">
+                        <img src="${cartItem.img}">
+                    </div>
+                    <div class="dados-produto">
+                        <p class="title-produto"><b>${cartItem.name}</b></p>
+                        <p class="price-produto"><b>R$${NormalizePrice(cartItem.price)}</b></p>
+                    </div>
+                    <div class="add-carrinho">
+                        <span class="btn-menos" onclick="cart.DecreaseItemAmount('${cartItem.id}')"><i class="fas fa-minus"></i></span>
+                        <span class="add-numero-itens" id="qntd-carrinho-${cartItem.id}">${cartItem.amount}</span>
+                        <span class="btn-mais" onclick="cart.IncreaseItemAmount('${cartItem.id}')"><i class="fas fa-plus"></i></span>
+                        <span class="btn btn-remove" onclick="cart.RemoveItem('${cartItem.id}')"><i class="fa fa-times"></i></span>
+                    </div>
+                </div>`
+        }
+    },
     AddItem: ({menuItemId, amount}) => {
-        if (cart.AlreadyInCart(menuItemId)) {
+        let existingCartItem = cart.GetItem(menuItemId)
+        if (existingCartItem != null && existingCartItem != undefined ) {
+            let newAmount = existingCartItem.amount + amount;
+
             let updatedCartItem = cart.UpdateItem({
-                menuItemId: menuItemId,
-                amount: amount
+                cartItemId: menuItemId,
+                amount: newAmount
             });
 
             return updatedCartItem;
@@ -151,14 +174,14 @@ var cart = {
 
         return menuItem;
     },
-    AlreadyInCart: (menuItemId) => {
-        return $.grep(CART_ITENS, (menuItem, i) => {
-            return menuItem.id == menuItemId
-        }).length > 0;
+    GetItem: (cartItemId) => {
+        return $.grep(CART_ITENS, (cartItem, i) => {
+            return cartItem.id == cartItemId
+        })[0];
     },
-    UpdateItem: ({menuItemId, amount}) => {
-        let menuItemCartIndex = CART_ITENS.findIndex((obj => obj.id == menuItemId))
-        CART_ITENS[menuItemCartIndex].amount += amount;
+    UpdateItem: ({cartItemId, amount}) => {
+        let menuItemCartIndex = CART_ITENS.findIndex((obj => obj.id == cartItemId))
+        CART_ITENS[menuItemCartIndex].amount = amount;
 
         return CART_ITENS[menuItemCartIndex];
     },
@@ -258,6 +281,71 @@ var cart = {
             }
         },
     },
+    LoadItems: () => {
+        cart.LoadStep(cart.Steps.CART_STEP);
+
+        if (CART_ITENS.length === 0) {
+            $("#itensCarrinho").html('<p class="carrinho-vazio"><i class="fa fa-shopping-bag"></i> Seu carrinho está vazio.</p>');
+            return;
+        }
+
+        $("#itensCarrinho").html('');
+
+        cart.AddItemComponents(CART_ITENS);
+    },
+    DecreaseItemAmount: (cartItemId) => {
+        let currentAmount = cart.GetItemCurrentAmount(cartItemId);
+        let newAmount = currentAmount - 1;
+
+        cart.UpdateItem({
+            cartItemId: cartItemId,
+            amount: newAmount
+        })
+        cart.UpdateTotal();
+
+        if (currentAmount === 1) {
+            cart.RemoveItem(cartItemId);
+            return;
+        }
+
+        $('#qntd-carrinho-' + cartItemId).text(newAmount);
+    },
+    IncreaseItemAmount: (cartItemId) => {
+        let currentAmount = cart.GetItemCurrentAmount(cartItemId);
+        let newAmount = currentAmount + 1;
+
+        cart.UpdateItem({
+            cartItemId: cartItemId,
+            amount: newAmount
+        });
+        cart.UpdateTotal();
+
+        $('#qntd-carrinho-' + cartItemId).text(newAmount);
+    },
+    GetItemCurrentAmount: (cartItemId) => {
+        return parseInt(
+            $('#qntd-carrinho-' + cartItemId).text()
+        );
+    },
+    RemoveItem: (cartItemId) => {
+        // TODO: Melhorar essa remoção para que não seja necessário manipular toda lista e recarregar o componente inteiro
+        // A ideia é ter uma remoção da tela mais elegante e a remoção única do item do array
+        CART_ITENS = $.grep(CART_ITENS, (e, i) => 
+        {
+            return e.id != cartItemId
+        });
+        cart.LoadItems();
+        cart.UpdateTotal();
+    },
+    AddItemComponents: (cartItems) => {
+        $.each(cartItems, (i, cartItem) => {
+            let cartItemComponent = cart
+                .components
+                .CreateCartItemComponent(cartItem);
+
+            $("#itensCarrinho").append(cartItemComponent);
+        });
+    }
 }
 
 function GetMenuItemDataById({ category, menuItemId }) {
@@ -300,4 +388,8 @@ function NotifyUser({ message, timeInMs, color }) {
             $('#msg-' + randomId).remove();
         }, 800);
     }, timeInMs);
+}
+
+function NormalizePrice(price) {
+    return price.toFixed(2).replace('.', ',');
 }
