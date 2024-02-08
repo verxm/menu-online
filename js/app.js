@@ -189,6 +189,7 @@ var cart = {
         var total = cart.GetTotalItems();
 
         cart.UpdateTotalItemAmountDisplay(total);
+        cart.LoadTotalPrices();
     },
     GetTotalItems: () => {
         let result = 0;
@@ -292,6 +293,7 @@ var cart = {
         $("#itensCarrinho").html('');
 
         cart.AddItemComponents(CART_ITENS);
+        cart.LoadTotalPrices();
     },
     DecreaseItemAmount: (cartItemId) => {
         let currentAmount = cart.GetItemCurrentAmount(cartItemId);
@@ -347,15 +349,32 @@ var cart = {
         });
     },
     LoadTotalPrices: () => {
-        cart.TotalPrice = 0;
-
         $('#lblSubTotal').text('R$ 0,00');
-        $('#lblValorEntrega').text('R$ 0,00');
-        $('#lblValorTotal').text('+ R$ 0,00');
+        $('#lblValorEntrega').text('+ R$ 0,00');
+        $('#lblValorTotal').text('R$ 0,00');
 
+        if (CART_ITENS.length <= 0) {
+            console.log("The total prices could not be loaded into the cart because the cart is empty.");
+            return;
+        }
+
+        let itemsTotalPrice = cart.GetItemsTotalPrice();
+
+        $('#lblSubTotal').text(`R$ ${NormalizePrice(itemsTotalPrice)}`);
+        $('#lblValorEntrega').text(`+ R$ ${NormalizePrice(cart.DeliveryPrice)}`);
+        $('#lblValorTotal').text(`R$ ${NormalizePrice(itemsTotalPrice + cart.DeliveryPrice)}`);
     },
-    TotalPrice: 0,
-    DeliveryPrice: 5
+    DeliveryPrice: 5,
+    GetItemsTotalPrice: () => {
+        let result = 0;
+
+        $.each(CART_ITENS, (i, cartItem) => {
+            let itemTotalPrice = parseFloat(cartItem.price * cartItem.amount);
+            result += itemTotalPrice;
+        });
+
+        return result;
+    }
 }
 
 function GetMenuItemDataById({ category, menuItemId }) {
