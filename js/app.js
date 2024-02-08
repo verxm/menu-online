@@ -17,7 +17,7 @@ function OpenCart(open) {
     }
 }
 
-var MENU_PAGE_ITENS_LIMIT = 8;
+const MENU_PAGE_ITENS_LIMIT = 8;
 var menu = {
     events: {
         Init: () => {
@@ -109,7 +109,7 @@ var menu = {
             amount: currentAmount
         });
 
-        cart.UpdateTotal();
+        cart.UpdateTotalItems();
 
         menu.ResetItemAmount(menuItemId);
 
@@ -185,12 +185,12 @@ var cart = {
 
         return CART_ITENS[menuItemCartIndex];
     },
-    UpdateTotal: () => {
-        var total = cart.GetTotal();
+    UpdateTotalItems: () => {
+        var total = cart.GetTotalItems();
 
-        cart.UpdateTotalValueDisplayed(total);
+        cart.UpdateTotalItemAmountDisplay(total);
     },
-    GetTotal: () => {
+    GetTotalItems: () => {
         let result = 0;
         $.each(CART_ITENS, (i, e) => {
             result += e.amount;
@@ -198,7 +198,7 @@ var cart = {
 
         return result;
     },
-    UpdateTotalValueDisplayed: (total) => {
+    UpdateTotalItemAmountDisplay : (total) => {
         if (total > 0) {
             $('.cart-button').removeClass('hidden');
             $('.container-total-carrinho').removeClass('hidden');
@@ -301,7 +301,7 @@ var cart = {
             cartItemId: cartItemId,
             amount: newAmount
         })
-        cart.UpdateTotal();
+        cart.UpdateTotalItems();
 
         if (currentAmount === 1) {
             cart.RemoveItem(cartItemId);
@@ -318,7 +318,7 @@ var cart = {
             cartItemId: cartItemId,
             amount: newAmount
         });
-        cart.UpdateTotal();
+        cart.UpdateTotalItems();
 
         $('#qntd-carrinho-' + cartItemId).text(newAmount);
     },
@@ -335,7 +335,7 @@ var cart = {
             return e.id != cartItemId
         });
         cart.LoadItems();
-        cart.UpdateTotal();
+        cart.UpdateTotalItems();
     },
     AddItemComponents: (cartItems) => {
         $.each(cartItems, (i, cartItem) => {
@@ -345,7 +345,17 @@ var cart = {
 
             $("#itensCarrinho").append(cartItemComponent);
         });
-    }
+    },
+    LoadTotalPrices: () => {
+        cart.TotalPrice = 0;
+
+        $('#lblSubTotal').text('R$ 0,00');
+        $('#lblValorEntrega').text('R$ 0,00');
+        $('#lblValorTotal').text('+ R$ 0,00');
+
+    },
+    TotalPrice: 0,
+    DeliveryPrice: 5
 }
 
 function GetMenuItemDataById({ category, menuItemId }) {
