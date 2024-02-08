@@ -4,7 +4,7 @@ $(document).ready(function () {
 
 function MenuFilterButtonsOnClick(element) {
     var buttonCategory = $(element).attr('category');
-    menu.GetMenuItens(buttonCategory);
+    menu.LoadItems(buttonCategory);
 }
 
 function OpenCart(open) {
@@ -21,7 +21,7 @@ var MENU_PAGE_ITENS_LIMIT = 8;
 var menu = {
     events: {
         Init: () => {
-            menu.GetMenuItens();
+            menu.LoadItems();
         }
     },
     components: {
@@ -47,7 +47,7 @@ var menu = {
                 </div>
             </div>`,
     },
-    GetMenuItens: (category = 'burgers') => {
+    LoadItems: (category = 'burgers') => {
         let menuItens = MENU[category]
             .slice(0, MENU_PAGE_ITENS_LIMIT);
 
