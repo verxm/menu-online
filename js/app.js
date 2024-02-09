@@ -8,7 +8,7 @@ function MenuFilterButtonsOnClick(element) {
 }
 
 function OpenCart(open) {
-    if (open){
+    if (open) {
         $('#modalCarrinho').removeClass('hidden');
         cart.LoadItems();
     }
@@ -66,7 +66,7 @@ var menu = {
         let menuItens = MENU[currentActiveCategory]
             .slice(MENU_PAGE_ITENS_LIMIT, MENU[currentActiveCategory].length);
 
-            menu.AddItemComponents(menuItens);
+        menu.AddItemComponents(menuItens);
 
         $('#btnViewMore').addClass('hidden');
     },
@@ -75,7 +75,7 @@ var menu = {
             let menuItemComponent = menu
                 .components
                 .CreateMenuItemComponent(menuItem);
-    
+
             $('#itensCardapio').append(menuItemComponent);
         });
     },
@@ -148,9 +148,9 @@ var cart = {
                 </div>`
         }
     },
-    AddItem: ({menuItemId, amount}) => {
+    AddItem: ({ menuItemId, amount }) => {
         let existingCartItem = cart.GetItem(menuItemId)
-        if (existingCartItem != null && existingCartItem != undefined ) {
+        if (existingCartItem != null && existingCartItem != undefined) {
             let newAmount = existingCartItem.amount + amount;
 
             let updatedCartItem = cart.UpdateItem({
@@ -168,7 +168,7 @@ var cart = {
             menuItemId: menuItemId
         });
 
-        menuItem.amount = amount; 
+        menuItem.amount = amount;
 
         CART_ITENS.push(menuItem);
 
@@ -179,7 +179,7 @@ var cart = {
             return cartItem.id == cartItemId
         })[0];
     },
-    UpdateItem: ({cartItemId, amount}) => {
+    UpdateItem: ({ cartItemId, amount }) => {
         let menuItemCartIndex = CART_ITENS.findIndex((obj => obj.id == cartItemId))
         CART_ITENS[menuItemCartIndex].amount = amount;
 
@@ -199,7 +199,7 @@ var cart = {
 
         return result;
     },
-    UpdateTotalItemAmountDisplay : (total) => {
+    UpdateTotalItemAmountDisplay: (total) => {
         if (total > 0) {
             $('.cart-button').removeClass('hidden');
             $('.container-total-carrinho').removeClass('hidden');
@@ -219,7 +219,7 @@ var cart = {
 
         cart.LoadStep(stepName);
     },
-    LoadStep : (step) => {
+    LoadStep: (step) => {
         cart
             .StepHandlers[step]
             .Load();
@@ -266,10 +266,98 @@ var cart = {
                 $('#btnVoltar').removeClass('hidden');
                 $('#btnEtapaPedido').addClass('hidden');
                 $('#btnEtapaResumo').addClass('hidden');
+            },
+            GetAddressByZipCode: () => {
+                let zipCode = NormalizeZipCode($('#txtCEP').val());
+
+                if (zipCode === "" || zipCode === undefined || zipCode === null) {
+                    NotifyInformation("Informe o CEP, por favor");
+                    $('#txtCEP').focus();
+
+                    return;
+                }
+
+                if (ZipCodeFormatIsInvalid(zipCode)) {
+                    NotifyError("Formato do CEP inválido");
+                    return;
+                }
+
+                $.getJSON(`https://viacep.com.br/ws/${zipCode}/json/?callback=`, function (response) {
+                    if ("error" in response) {
+                        NotifyError("CEP não encontrado. Preencha as informações manualmente");
+                        $('#txtEndereço').focus();
+                        return;
+                    }
+
+                    $('#txtEndereço').val(response.logradouro);
+                    $('#txtBairro').val(response.bairro);
+                    $('#txtCidade').val(response.localidade);
+                    $('#ddlUf').val(response.uf);
+
+                    $('#txtNumero').focus();
+                });
+            },
+            IsValid: (address) => {
+                // TODO: Melhorar essa validação
+                if (address.cep.length <= 0) {
+                    NotifyError("Informe o CEP, por favor.")
+                    $('#txtCEP').focus();
+                    return false;
+                }
+
+                if (address.endereco.length <= 0) {
+                    NotifyError("Informe o endereço, por favor.")
+                    $('#txtEndereço').focus();
+                    return false;
+                }
+
+                if (address.bairro.length <= 0) {
+                    NotifyError("Informe o bairro, por favor.")
+                    $('#txtBairro').focus();
+                    return false;
+                }
+
+                if (address.cidade.length <= 0) {
+                    NotifyError("Informe a cidade, por favor.")
+                    $('#txtCidade').focus();
+                    return false;
+                }
+
+                if (address.uf == -1) {
+                    NotifyError("Informe a UF, por favor.")
+                    $('#ddlUf').focus();
+                    return false;
+                }
+
+                if (address.numero.length <= 0) {
+                    NotifyError("Informe a número, por favor.")
+                    $('#txtNumero').focus();
+                    return false;
+                }
+
+                return true;
+            },
+            GetFormData: () => {
+                return {
+                    cep: $('#txtCEP').val().trim(),
+                    endereco: $('#txtEndereço').val().trim(),
+                    bairro: $('#txtBairro').val().trim(),
+                    cidade: $('#txtCidade').val().trim(),
+                    uf: $('#ddlUf').val().trim(),
+                    numero: $('#txtNumero').val().trim()
+                }
             }
         },
         SummaryStep: {
             Load: () => {
+                var address = cart.StepHandlers.AddressStep.GetFormData();
+
+                if (!cart.StepHandlers.AddressStep.IsValid(address)) {
+                    return;
+                }
+
+                cart.Address = address;
+
                 $('#lblTituloEtapa').text('Resumo do pedido:');
                 $('#itensCarrinho').addClass('hidden');
                 $('#localEntrega').addClass('hidden');
@@ -287,6 +375,7 @@ var cart = {
             }
         },
     },
+    Address: null,
     IsEmpty: () => {
         return CART_ITENS.length <= 0;
     },
@@ -340,8 +429,7 @@ var cart = {
     RemoveItem: (cartItemId) => {
         // TODO: Melhorar essa remoção para que não seja necessário manipular toda lista e recarregar o componente inteiro
         // A ideia é ter uma remoção da tela mais elegante e a remoção única do item do array
-        CART_ITENS = $.grep(CART_ITENS, (e, i) => 
-        {
+        CART_ITENS = $.grep(CART_ITENS, (e, i) => {
             return e.id != cartItemId
         });
         cart.LoadItems();
@@ -396,7 +484,7 @@ function GetMenuItemDataById({ category, menuItemId }) {
 var SUCCESS_COLOR_CLASS_NAME = 'green';
 function NotifySuccess(message, timeInMs = 3500) {
     NotifyUser({
-        message: `<i class="notification-icon fas fa-check"></i> ${message}`,
+        message: `<i class="notification-icon fas fa-check-circle"></i> ${message}`,
         color: SUCCESS_COLOR_CLASS_NAME,
         timeInMs: timeInMs
     });
@@ -407,6 +495,15 @@ function NotifyError(message, timeInMs = 3500) {
     NotifyUser({
         message: `<i class="notification-icon fas fa-times-circle"></i> ${message}`,
         color: ERROR_COLOR_CLASS_NAME,
+        timeInMs: timeInMs
+    });
+}
+
+var INFORMATION_COLOR_CLASS_NAME = 'gray';
+function NotifyInformation(message, timeInMs = 3500) {
+    NotifyUser({
+        message: `<i class="notification-icon fas fa-exclamation-circle"></i> ${message}`,
+        color: INFORMATION_COLOR_CLASS_NAME,
         timeInMs: timeInMs
     });
 }
@@ -429,4 +526,19 @@ function NotifyUser({ message, timeInMs, color }) {
 
 function NormalizePrice(price) {
     return price.toFixed(2).replace('.', ',');
+}
+
+function NormalizeZipCode(zipCode) {
+    return KeepsOnlyNumericCharacters(zipCode);
+}
+
+function KeepsOnlyNumericCharacters(text) {
+    return text
+        .trim()
+        .replace(/\D/g, '');
+}
+
+const ZIP_CODE_FORMAT_REGEX = /^[0-9]{8}$/;
+function ZipCodeFormatIsInvalid(zipCode) {
+    return !ZIP_CODE_FORMAT_REGEX.test(zipCode);
 }
