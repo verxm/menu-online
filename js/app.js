@@ -230,7 +230,7 @@ var cart = {
         SUMMARY_STEP: 'SummaryStep'
     },
     StepHandlers: {
-        'CartStep': {
+        CartStep: {
             Load: () => {
                 $('#lblTituloEtapa').text('Seu carrinho:');
                 $('#itensCarrinho').removeClass('hidden');
@@ -246,7 +246,7 @@ var cart = {
                 $('#btnVoltar').addClass('hidden');
             }
         },
-        'AddressStep': {
+        AddressStep: {
             Load: () => {
                 if (cart.IsEmpty()) {
                     NotifyError("Adicione itens ao carrinho para continuar")
@@ -268,7 +268,7 @@ var cart = {
                 $('#btnEtapaResumo').addClass('hidden');
             }
         },
-        'SummaryStep': {
+        SummaryStep: {
             Load: () => {
                 $('#lblTituloEtapa').text('Resumo do pedido:');
                 $('#itensCarrinho').addClass('hidden');
