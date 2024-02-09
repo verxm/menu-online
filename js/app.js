@@ -396,7 +396,7 @@ function GetMenuItemDataById({ category, menuItemId }) {
 var SUCCESS_COLOR_CLASS_NAME = 'green';
 function NotifySuccess(message, timeInMs = 3500) {
     NotifyUser({
-        message: message,
+        message: `<i class="notification-icon fas fa-check"></i> ${message}`,
         color: SUCCESS_COLOR_CLASS_NAME,
         timeInMs: timeInMs
     });
@@ -405,7 +405,7 @@ function NotifySuccess(message, timeInMs = 3500) {
 var ERROR_COLOR_CLASS_NAME = 'red';
 function NotifyError(message, timeInMs = 3500) {
     NotifyUser({
-        message: message,
+        message: `<i class="notification-icon fas fa-times-circle"></i> ${message}`,
         color: ERROR_COLOR_CLASS_NAME,
         timeInMs: timeInMs
     });

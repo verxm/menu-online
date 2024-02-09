@@ -779,3 +779,8 @@ select.form-control {
     border-radius: 50px;
     margin-bottom: 10px;
 }
+
+.notification-icon {
+    margin-left: -10px !important;
+    margin-right: 8px !important;
+}
