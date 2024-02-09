@@ -248,6 +248,11 @@ var cart = {
         },
         'AddressStep': {
             Load: () => {
+                if (cart.IsEmpty()) {
+                    NotifyError("Adicione itens ao carrinho para continuar")
+                    return;
+                }
+
                 $('#lblTituloEtapa').text('Endereço de entrega:');
                 $('#itensCarrinho').addClass('hidden');
                 $('#localEntrega').removeClass('hidden');
@@ -281,6 +286,9 @@ var cart = {
                 $('#btnEtapaPedido').addClass('hidden');
             }
         },
+    },
+    IsEmpty: () => {
+        return CART_ITENS.length <= 0;
     },
     LoadItems: () => {
         cart.LoadStep(cart.Steps.CART_STEP);
