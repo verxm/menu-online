@@ -358,6 +358,12 @@ var cart = {
 
                 cart.Address = address;
 
+                cart
+                    .StepHandlers
+                    .SummaryStep
+                    .DisplayForm();
+            },
+            DisplayForm: () => {
                 $('#lblTituloEtapa').text('Resumo do pedido:');
                 $('#itensCarrinho').addClass('hidden');
                 $('#localEntrega').addClass('hidden');
