@@ -10,7 +10,11 @@ function MenuFilterButtonsOnClick(element) {
 function OpenCart(open) {
     if (open) {
         $('#modalCarrinho').removeClass('hidden');
-        cart.LoadItems();
+
+        cart
+            .StepHandlers
+            .CartStep
+            .Load();;
     }
     else {
         $('#modalCarrinho').addClass('hidden');
@@ -137,7 +141,7 @@ var cart = {
                     </div>
                     <div class="dados-produto">
                         <p class="title-produto"><b>${cartItem.name}</b></p>
-                        <p class="price-produto"><b>R$${NormalizePrice(cartItem.price)}</b></p>
+                        <p class="price-produto"><b>R$ ${NormalizePrice(cartItem.price)}</b></p>
                     </div>
                     <div class="add-carrinho">
                         <span class="btn-menos" onclick="cart.DecreaseItemAmount('${cartItem.id}')"><i class="fas fa-minus"></i></span>
@@ -145,6 +149,26 @@ var cart = {
                         <span class="btn-mais" onclick="cart.IncreaseItemAmount('${cartItem.id}')"><i class="fas fa-plus"></i></span>
                         <span class="btn btn-remove" onclick="cart.RemoveItem('${cartItem.id}')"><i class="fa fa-times"></i></span>
                     </div>
+                </div>`
+        },
+        CreateSummaryItemComponent: (cartItem) => {
+            return `
+                <div class="col-12 item-carrinho resumo">
+                    <div class="img-produto-resumo">
+                        <img
+                            src="${cartItem.img}">
+                    </div>
+                    <div class="dados-produto">
+                        <p class="title-produto-resumo">
+                            <b>${cartItem.name}</b>
+                        </p>
+                        <p class="price-produto-resumo">
+                            <b>R$ ${NormalizePrice(cartItem.price)}</b>
+                        </p>
+                    </div>
+                    <p class="quantidade-produto-resumo">
+                        x <b>${cartItem.id}">${cartItem.amount}</b>
+                    </p>
                 </div>`
         }
     },
@@ -232,6 +256,17 @@ var cart = {
     StepHandlers: {
         CartStep: {
             Load: () => {
+                cart
+                    .StepHandlers
+                    .CartStep
+                    .DisplayForm();
+
+                cart
+                    .StepHandlers
+                    .CartStep
+                    .LoadItems();
+            },
+            DisplayForm: () => {
                 $('#lblTituloEtapa').text('Seu carrinho:');
                 $('#itensCarrinho').removeClass('hidden');
                 $('#localEntrega').addClass('hidden');
@@ -244,6 +279,30 @@ var cart = {
                 $('#btnEtapaEndereco').addClass('hidden');
                 $('#btnEtapaResumo').addClass('hidden');
                 $('#btnVoltar').addClass('hidden');
+            },
+            LoadItems: () => {
+                if (CART_ITENS.length === 0) {
+                    $("#itensCarrinho").html('<p class="carrinho-vazio"><i class="fa fa-shopping-bag"></i> Seu carrinho está vazio.</p>');
+                    return;
+                }
+        
+                $("#itensCarrinho").html('');
+        
+                cart
+                    .StepHandlers
+                    .CartStep
+                    .AddItemComponents(CART_ITENS);
+                    
+                cart.LoadTotalPrices();
+            },
+            AddItemComponents: (cartItems) => {
+                $.each(cartItems, (i, cartItem) => {
+                    let cartItemComponent = cart
+                        .components
+                        .CreateCartItemComponent(cartItem);
+        
+                    $("#itensCarrinho").append(cartItemComponent);
+                });
             }
         },
         AddressStep: {
@@ -385,19 +444,6 @@ var cart = {
     IsEmpty: () => {
         return CART_ITENS.length <= 0;
     },
-    LoadItems: () => {
-        cart.LoadStep(cart.Steps.CART_STEP);
-
-        if (CART_ITENS.length === 0) {
-            $("#itensCarrinho").html('<p class="carrinho-vazio"><i class="fa fa-shopping-bag"></i> Seu carrinho está vazio.</p>');
-            return;
-        }
-
-        $("#itensCarrinho").html('');
-
-        cart.AddItemComponents(CART_ITENS);
-        cart.LoadTotalPrices();
-    },
     DecreaseItemAmount: (cartItemId) => {
         let currentAmount = cart.GetItemCurrentAmount(cartItemId);
         let newAmount = currentAmount - 1;
@@ -438,17 +484,13 @@ var cart = {
         CART_ITENS = $.grep(CART_ITENS, (e, i) => {
             return e.id != cartItemId
         });
-        cart.LoadItems();
-        cart.UpdateTotalItems();
-    },
-    AddItemComponents: (cartItems) => {
-        $.each(cartItems, (i, cartItem) => {
-            let cartItemComponent = cart
-                .components
-                .CreateCartItemComponent(cartItem);
 
-            $("#itensCarrinho").append(cartItemComponent);
-        });
+        cart
+            .StepHandlers
+            .CartStep
+            .Load();
+
+        cart.UpdateTotalItems();
     },
     LoadTotalPrices: () => {
         $('#lblSubTotal').text('R$ 0,00');
