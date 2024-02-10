@@ -167,7 +167,7 @@ var cart = {
                         </p>
                     </div>
                     <p class="quantidade-produto-resumo">
-                        x <b>${cartItem.id}">${cartItem.amount}</b>
+                        x <b>${cartItem.amount}</b>
                     </p>
                 </div>`
         }
@@ -403,7 +403,8 @@ var cart = {
                     bairro: $('#txtBairro').val().trim(),
                     cidade: $('#txtCidade').val().trim(),
                     uf: $('#ddlUf').val().trim(),
-                    numero: $('#txtNumero').val().trim()
+                    numero: $('#txtNumero').val().trim(),
+                    complemento: $('#txtComplemento').val().trim(),
                 }
             }
         },
@@ -421,6 +422,20 @@ var cart = {
                     .StepHandlers
                     .SummaryStep
                     .DisplayForm();
+                
+                cart
+                    .StepHandlers
+                    .SummaryStep
+                    .LoadItems();
+
+                cart
+                    .StepHandlers
+                    .SummaryStep
+                    .LoadAddressSummary();
+            },
+            LoadAddressSummary: () => {
+                $('#resumoEndereco').html(`${cart.Address.endereco}, ${cart.Address.numero}, ${cart.Address.bairro}`);
+                $('#cidadeEndereco').html(`${cart.Address.cidade}-${cart.Address.uf} / ${cart.Address.cep} ${cart.Address.complemento}`)
             },
             DisplayForm: () => {
                 $('#lblTituloEtapa').text('Resumo do pedido:');
@@ -437,6 +452,23 @@ var cart = {
                 $('#btnVoltar').removeClass('hidden');
                 $('#btnEtapaEndereco').addClass('hidden');
                 $('#btnEtapaPedido').addClass('hidden');
+            },
+            LoadItems: () => {
+                $("#listaItensResumo").html('');
+
+                cart
+                    .StepHandlers
+                    .SummaryStep
+                    .AddItemComponents(CART_ITENS);
+            },
+            AddItemComponents: (cartItems) => {
+                $.each(cartItems, (i, cartItem) => {
+                    let cartItemComponent = cart
+                        .components
+                        .CreateSummaryItemComponent(cartItem);
+        
+                    $("#listaItensResumo").append(cartItemComponent);
+                });
             }
         },
     },
