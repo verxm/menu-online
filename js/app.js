@@ -574,9 +574,7 @@ var cart = {
 
         let orderSummaryText = cart.GenerateOrderSummaryText();
 
-        let whatsAppMessageUri = `https://wa.me/${COMPANY_WHATSAPP_NUMBER}?text=${encodeURI(orderSummaryText)}`
-
-        window.open(whatsAppMessageUri, '_blank');
+        SendWhatsAppMessage(orderSummaryText);
     },
     GenerateOrderSummaryText: () => {
         let cartItemsSummaryText = cart.GenerateCartItemsSummaryText();
@@ -599,6 +597,12 @@ var cart = {
 
         return result;
     }
+}
+
+function SendWhatsAppMessage(message) {
+    let whatsAppMessageUri = `https://wa.me/${COMPANY_WHATSAPP_NUMBER}?text=${encodeURI(message)}`
+
+        window.open(whatsAppMessageUri, '_blank');
 }
 
 function GetMenuItemDataById({ category, menuItemId }) {
