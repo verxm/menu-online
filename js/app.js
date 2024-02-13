@@ -1,3 +1,5 @@
+COMPANY_WHATSAPP_NUMBER = '555199028748';
+
 $(document).ready(function () {
     menu.events.Init();
 });
@@ -434,8 +436,8 @@ var cart = {
                     .LoadAddressSummary();
             },
             LoadAddressSummary: () => {
-                $('#resumoEndereco').html(`${cart.Address.endereco}, ${cart.Address.numero}, ${cart.Address.bairro}`);
-                $('#cidadeEndereco').html(`${cart.Address.cidade}-${cart.Address.uf} / ${cart.Address.cep} ${cart.Address.complemento}`)
+                $('#resumoEndereco').html(cart.GeneratePrimaryAddressText());
+                $('#cidadeEndereco').html(cart.GenerateSecondaryAddressText())
             },
             DisplayForm: () => {
                 $('#lblTituloEtapa').text('Resumo do pedido:');
@@ -473,6 +475,12 @@ var cart = {
         },
     },
     Address: null,
+    GeneratePrimaryAddressText: () => {
+        return `${cart.Address.endereco}, ${cart.Address.numero} ${cart.Address.complemento}, ${cart.Address.bairro}`;
+    },
+    GenerateSecondaryAddressText: () => {
+        return `${cart.Address.cidade}-${cart.Address.uf} / ${cart.Address.cep}`;
+    },
     IsEmpty: () => {
         return CART_ITENS.length <= 0;
     },
@@ -538,7 +546,7 @@ var cart = {
 
         $('#lblSubTotal').text(`R$ ${NormalizePrice(itemsTotalPrice)}`);
         $('#lblValorEntrega').text(`+ R$ ${NormalizePrice(cart.DeliveryPrice)}`);
-        $('#lblValorTotal').text(`R$ ${NormalizePrice(itemsTotalPrice + cart.DeliveryPrice)}`);
+        $('#lblValorTotal').text(`R$ ${NormalizePrice(cart.GetTotalPrice(itemsTotalPrice))}`);
     },
     DeliveryPrice: 5,
     GetItemsTotalPrice: () => {
@@ -547,6 +555,46 @@ var cart = {
         $.each(CART_ITENS, (i, cartItem) => {
             let itemTotalPrice = parseFloat(cartItem.price * cartItem.amount);
             result += itemTotalPrice;
+        });
+
+        return result;
+    },
+    GetTotalPrice: (itemsTotalPrice = null) => {
+        if (itemsTotalPrice == null || itemsTotalPrice == undefined) {
+            itemsTotalPrice = cart.GetItemsTotalPrice();
+        }
+
+        return itemsTotalPrice + cart.DeliveryPrice;
+    },
+    FinalizeOrder: () => {
+        if (CART_ITENS.length <= 0) {
+            NotifyError('Adicione algum produto ao carrinho para finalizar seu pedido');
+            return;
+        }
+
+        let orderSummaryText = cart.GenerateOrderSummaryText();
+
+        let whatsAppMessageUri = `https://wa.me/${COMPANY_WHATSAPP_NUMBER}?text=${encodeURI(orderSummaryText)}`
+
+        window.open(whatsAppMessageUri, '_blank');
+    },
+    GenerateOrderSummaryText: () => {
+        let cartItemsSummaryText = cart.GenerateCartItemsSummaryText();
+
+        let result = 'Olá! Gostaria de fazer um pedido:\n\n';
+        result += `*Itens do pedido:*\n${cartItemsSummaryText}`;
+        result += '\n*Endereço de entrega:*';
+        result += `\n${cart.GeneratePrimaryAddressText()}`;
+        result += `\n${cart.GenerateSecondaryAddressText()}`;
+        result += `\n\n*Total (com entrega): R$ ${NormalizePrice(cart.GetTotalPrice())}*`;
+
+        return result;
+    },
+    GenerateCartItemsSummaryText: () => {
+        let result = '';
+
+        $.each(CART_ITENS, (i, e) => {
+            result += `*${e.amount}x* ${e.name} ....... R$ ${NormalizePrice(e.price)} \n`;
         });
 
         return result;
