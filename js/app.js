@@ -287,14 +287,14 @@ var cart = {
                     $("#itensCarrinho").html('<p class="carrinho-vazio"><i class="fa fa-shopping-bag"></i> Seu carrinho está vazio.</p>');
                     return;
                 }
-        
+
                 $("#itensCarrinho").html('');
-        
+
                 cart
                     .StepHandlers
                     .CartStep
                     .AddItemComponents(CART_ITENS);
-                    
+
                 cart.LoadTotalPrices();
             },
             AddItemComponents: (cartItems) => {
@@ -302,7 +302,7 @@ var cart = {
                     let cartItemComponent = cart
                         .components
                         .CreateCartItemComponent(cartItem);
-        
+
                     $("#itensCarrinho").append(cartItemComponent);
                 });
             }
@@ -424,7 +424,7 @@ var cart = {
                     .StepHandlers
                     .SummaryStep
                     .DisplayForm();
-                
+
                 cart
                     .StepHandlers
                     .SummaryStep
@@ -468,7 +468,7 @@ var cart = {
                     let cartItemComponent = cart
                         .components
                         .CreateSummaryItemComponent(cartItem);
-        
+
                     $("#listaItensResumo").append(cartItemComponent);
                 });
             }
@@ -602,7 +602,7 @@ var cart = {
 function SendWhatsAppMessage(message) {
     let whatsAppMessageUri = `https://wa.me/${COMPANY_WHATSAPP_NUMBER}?text=${encodeURI(message)}`
 
-        window.open(whatsAppMessageUri, '_blank');
+    window.open(whatsAppMessageUri, '_blank');
 }
 
 function GetMenuItemDataById({ category, menuItemId }) {
