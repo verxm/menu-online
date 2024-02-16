@@ -603,6 +603,14 @@ var cart = {
     }
 }
 
+function OpenTestimony(testimonyId) {
+    $('.depoimento').addClass('hidden');
+    $('.btn-testimony').removeClass('active');
+
+    $('#btnDepoimento' + testimonyId).addClass('active');
+    $('#depoimento-' + testimonyId).removeClass('hidden');
+}
+
 const BOOKING_REQUEST_MESSAGE = 'Olá! Gostaria de fazer uma *reserva*.'
 function SendBookingMessage() {
     SendWhatsAppMessage(BOOKING_REQUEST_MESSAGE);
