@@ -616,8 +616,12 @@ function SendBookingMessage() {
     SendWhatsAppMessage(BOOKING_REQUEST_MESSAGE);
 }
 
-function SendWhatsAppMessage(message) {
-    let whatsAppMessageUri = `https://wa.me/${COMPANY_WHATSAPP_NUMBER}?text=${encodeURI(message)}`
+function SendWhatsAppMessage(message = null) {
+    let textQueryParam = message === null || message === undefined 
+        ? ''
+        : `?text=${encodeURI(message)}`;
+
+    let whatsAppMessageUri = `https://wa.me/${COMPANY_WHATSAPP_NUMBER}` + textQueryParam;
 
     window.open(whatsAppMessageUri, '_blank');
 }
