@@ -131,7 +131,6 @@ var menu = {
     }
 };
 
-
 var CART_ITENS = [];
 var cart = {
     components: {
@@ -597,6 +596,11 @@ var cart = {
 
         return result;
     }
+}
+
+const BOOKING_REQUEST_MESSAGE = 'Olá! Gostaria de fazer uma *reserva*.'
+function SendBookingMessage() {
+    SendWhatsAppMessage(BOOKING_REQUEST_MESSAGE);
 }
 
 function SendWhatsAppMessage(message) {
