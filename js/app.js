@@ -1,12 +1,17 @@
-COMPANY_WHATSAPP_NUMBER = '555199028748';
+COMPANY_WHATSAPP_NUMBER = '5551994425150';
 
 $(document).ready(function () {
     menu.events.Init();
+    LoadCallButton();
 });
 
 function MenuFilterButtonsOnClick(element) {
     var buttonCategory = $(element).attr('category');
     menu.LoadItems(buttonCategory);
+}
+
+function LoadCallButton() {
+    $('#btnLigar').attr('href', `tel:${COMPANY_WHATSAPP_NUMBER}`);
 }
 
 function OpenCart(open) {
