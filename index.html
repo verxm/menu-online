@@ -16,7 +16,7 @@
 <body>
     <div class="container-mensagens" id="container-mensagens"></div>
 
-    <a class="cart-button hidden" onclick="OpenCart(true)">
+    <a class="cart-button hidden animated bounceIn" onclick="OpenCart(true)">
         <div class="badge-total-carrinho">0</div>
         <i class="fa fa-shopping-bag"></i>
     </a>
@@ -24,7 +24,7 @@
     <section class="header">
         <div class="container">
             <nav class="navbar navbar-expand-lg pl-0 pr-0">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand wow fadeIn" href="#">
                     <img src="./img/logo.png" width="160" class="img-logo" />
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navBarNavDropdown">
@@ -33,7 +33,7 @@
                     </span>
                 </button>
                 <div class="collapse navbar-collapse" id="navBarNavDropdown">
-                    <ul class="navbar-nav ml-auto mr-auto">
+                    <ul class="navbar-nav ml-auto mr-auto wow fadeIn">
                         <li class="nav-item">
                             <a href="#reservas" class="nav-link">
                                 <b>Reserva</b>
@@ -55,7 +55,7 @@
                             </a>
                         </li>
                     </ul>
-                    <a class="btn btn-white btn-icon" onclick="OpenCart(true)">
+                    <a class="btn btn-white btn-icon wow fadeIn" onclick="OpenCart(true)">
                         Meu carrinho <span class="icon">
                             <div class="container-total-carrinho badge-total-carrinho hidden">0</div>
                             <i class="fa fa-shopping-bag"></i>
@@ -71,12 +71,12 @@
             <div class="row">
                 <div class="col-6">
                     <div class="d-flex text-banner">
-                        <h1><b>Escolha sua comida <b class="color-primary">favorita</b>.</b></h1>
-                        <p>
+                        <h1 class="wow fadeInLeft"><b>Escolha sua comida <b class="color-primary">favorita</b>.</b></h1>
+                        <p class="wow fadeInLeft delay-02s">
                             Aproveite nosso cardápio! Escolha o que desejar e receba em sua casa de forma rápida e
                             segura.
                         </p>
-                        <div>
+                        <div class="wow fadeIn delay-05s">
                             <a href="" class="btn btn-yellow mt-4 mr-3">
                                 Ver cardápio
                             </a>
@@ -88,22 +88,22 @@
                             </a>
                         </div>
                     </div>
-                    <a href="https://instagram.com/ve7xm/" target="_blank" class="btn btn-sm btn-white btn-social mt-4 mr-3">
+                    <a href="https://instagram.com/ve7xm/" target="_blank" class="btn btn-sm btn-white btn-social mt-4 mr-3 wow fadeIn delay-06s">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="" class="btn btn-sm btn-white btn-social mt-4 mr-3">
+                    <a href="" class="btn btn-sm btn-white btn-social mt-4 mr-3 wow fadeIn delay-07s">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a class="btn btn-sm btn-white btn-social mt-4" onclick="SendWhatsAppMessage()">
+                    <a class="btn btn-sm btn-white btn-social mt-4 wow fadeIn delay-08s" onclick="SendWhatsAppMessage()">
                         <i class="fab fa-whatsapp"></i>
                     </a>
                 </div>
                 <div class="col-6">
-                    <div class="card-banner"></div>
-                    <div class="d-flex img-banner">
+                    <div class="card-banner wow fadeIn delay-02s"></div>
+                    <div class="d-flex img-banner wow fadeIn delay-05s">
                         <img src="./img/burguer.png" alt="">
                     </div>
-                    <div class="card card-case">
+                    <div class="card card-case wow fadeInRight delay-07s">
                         "Entrega rápida e funcionários simpáticos.
                         <br>
                         A comida chegou quente e
@@ -122,7 +122,7 @@
         <div class="background-servicos"></div>
         <div class="container">
             <div class="row">
-                <div class="col-12 text-center mb-5">
+                <div class="col-12 text-center mb-5 wow fadeIn">
                     <span class="hint-title">
                         <b>Serviços</b>
                     </span>
@@ -130,7 +130,7 @@
                         <b>Como são nossos serviços?</b>
                     </h1>
                 </div>
-                <div class="col-4 mb-5">
+                <div class="col-4 mb-5 wow fadeInUp">
                     <div class="card-icon text-center">
                         <img src="./img/icone-pedido.svg" width="150" alt="" />
                     </div>
@@ -141,7 +141,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-4 mb-5">
+                <div class="col-4 mb-5 wow fadeInUp">
                     <div class="card-icon text-center">
                         <img src="./img/icone-delivery.svg" width="250" alt="" />
                     </div>
@@ -152,7 +152,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-4 mb-5">
+                <div class="col-4 mb-5 wow fadeInUp">
                     <div class="card-icon text-center">
                         <img src="./img/icone-qualidade.svg" width="250" alt="" />
                     </div>
@@ -171,7 +171,7 @@
         <div class="background-cardapio"></div>
         <div class="container">
             <div class="row">
-                <div class="col-12 text-center mb-5">
+                <div class="col-12 text-center mb-5 wow fadeIn">
                     <span class="hint-title">
                         <b>Cardápio</b>
                     </span>
@@ -179,7 +179,7 @@
                         <b>Conheça o nosso cardápio</b>
                     </h1>
                 </div>
-                <div class="col-12 container-menu">
+                <div class="col-12 container-menu wow fadeInUp">
                     <a id="menu-burgers" class="btn active btn-white btn-sm mr-3"
                         onclick="MenuFilterButtonsOnClick(this)" category="burgers">
                         <i class="fas fa-hamburger"></i>&nbsp; Burgers
@@ -214,7 +214,7 @@
 
                     </div>
                 </div>
-                <div class="col-12 text-center">
+                <div class="col-12 text-center wow fadeInUp">
                     <a id="btnViewMore" class="btn btn-white btn-sm" onclick="menu.SeeMoreMenuItens()">Ver mais</a>
                 </div>
             </div>
@@ -227,21 +227,21 @@
             <div class="row">
 
                 <div class="col-5 text-center">
-                    <div class="card-depoimentos"></div>
-                    <div class="d-flex img-banner">
+                    <div class="card-depoimentos wow fadeIn"></div>
+                    <div class="d-flex img-banner wow fadeInLeft delay-02s">
                         <img src="./img/pizzas.png" alt="">
                     </div>
                 </div>
 
                 <div class="col-7">
-                    <span class="hint-title">
+                    <span class="hint-title wow fadeIn">
                         <b>Depoimentos</b>
                     </span>
-                    <h1 class="title">
+                    <h1 class="title wow fadeIn">
                         <b>O que dizem sobre nós?</b>
                     </h1>
                     <div class="mb-5">
-                        <div class="depoimento" id="depoimento-1">
+                        <div class="depoimento animated fadeIn" id="depoimento-1">
                             <div class="container-dados-depoimento">
                                 <div class="imagem-depoimento"></div>
                                 <div>
@@ -265,7 +265,7 @@
                             </p>
                         </div>
 
-                        <div class="depoimento hidden" id="depoimento-2">
+                        <div class="depoimento animated fadeIn hidden" id="depoimento-2">
                             <div class="container-dados-depoimento">
                                 <div class="imagem-depoimento"></div>
                                 <div>
@@ -290,7 +290,7 @@
                             </p>
                         </div>
 
-                        <div class="depoimento hidden" id="depoimento-3">
+                        <div class="depoimento animated fadeIn hidden" id="depoimento-3">
                             <div class="container-dados-depoimento">
                                 <div class="imagem-depoimento"></div>
                                 <div>
@@ -315,9 +315,9 @@
                         </div>
                     </div>
 
-                    <a id="btnDepoimento1" onclick="OpenTestimony(1)" class="btn btn-sm btn-white btn-social btn-testimony mr-3 active">1</a>
-                    <a id="btnDepoimento2" onclick="OpenTestimony(2)" class="btn btn-sm btn-white btn-social btn-testimony mr-3">2</a>
-                    <a id="btnDepoimento3" onclick="OpenTestimony(3)" class="btn btn-sm btn-white btn-social btn-testimony">3</a>
+                    <a id="btnDepoimento1" onclick="OpenTestimony(1)" class="btn btn-sm btn-white btn-social btn-testimony mr-3 active wow fadeIn delay-02s">1</a>
+                    <a id="btnDepoimento2" onclick="OpenTestimony(2)" class="btn btn-sm btn-white btn-social btn-testimony mr-3 wow fadeIn delay-03s">2</a>
+                    <a id="btnDepoimento3" onclick="OpenTestimony(3)" class="btn btn-sm btn-white btn-social btn-testimony wow fadeIn delay-04s">3</a>
 
                 </div>
 
@@ -325,7 +325,7 @@
         </div>
     </section>
 
-    <section class="reserva" id="reservas">
+    <section class="reserva wow fadeInUp" id="reservas">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -345,14 +345,14 @@
                                     <br>
                                     Reserve sua data e horário de forma simple e rápida.
                                 </p>
-                                <a class="btn btn-yellow mt-4" onclick="SendBookingMessage()">
+                                <a class="btn btn-yellow mt-4 wow fadeIn delay-05s" onclick="SendBookingMessage()">
                                     Fazer reserva
                                 </a>
                             </div>
 
                             <div class="col-5">
-                                <div class="card-reserva"></div>
-                                <div class="d-flex img-banner">
+                                <div class="card-reserva wow fadeIn delay-05s"></div>
+                                <div class="d-flex img-banner wow fadeIn delay-07s">
                                     <img src="./img/icone-reserva.svg" alt="">
                                 </div>
                             </div>
@@ -370,22 +370,22 @@
 
             <div class="row">
 
-                <div class="col-3 container-logo-footer">
+                <div class="col-3 container-logo-footer wow fadeIn">
                     <img class="logo-footer" src="./img/logo.png" alt="">
                 </div>
-                <div class="col-6 container-texto-footer">
+                <div class="col-6 container-texto-footer wow fadeIn">
                     <p class="mb-0">
                         <b>Meno Online</b> &copy; Todos os direitos reservados
                     </p>
                 </div>
                 <div class="col-3 container-redes-footer">
-                    <a href="https://instagram.com/ve7xm/" target="_blank" class="btn btn-sm btn-white btn-social mr-3">
+                    <a href="https://instagram.com/ve7xm/" target="_blank" class="btn btn-sm btn-white btn-social mr-3 wow fadeIn delay-04s">
                         <i class="fab fa-instagram"></i>
                     </a>
-                    <a href="" class="btn btn-sm btn-white btn-social mr-3">
+                    <a href="" class="btn btn-sm btn-white btn-social mr-3 wow fadeIn delay-03s">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a class="btn btn-sm btn-white btn-social" onclick="SendWhatsAppMessage()">
+                    <a class="btn btn-sm btn-white btn-social wow fadeIn delay-02s" onclick="SendWhatsAppMessage()">
                         <i class="fab fa-whatsapp"></i>
                     </a>
                 </div>
@@ -395,7 +395,7 @@
         </div>
     </footer>
 
-    <div class="modal-full hidden" id="modalCarrinho">
+    <div class="modal-full hidden animated fadeIn" id="modalCarrinho">
         <div class="m-header">
             <div class="container">
                 <a class="btn btn-white btn-sm float-right" onclick="OpenCart(false)">
@@ -415,11 +415,11 @@
         <div class="m-body">
             <div class="container">
 
-                <div id="itensCarrinho" class="row mr-0 ml-0 hidden">
+                <div id="itensCarrinho" class="row mr-0 ml-0 hidden  animated fadeIn">
 
                 </div>
 
-                <div id="localEntrega" class="row mr-0 ml-0 hidden">
+                <div id="localEntrega" class="row mr-0 ml-0 hidden  animated fadeIn">
 
                     <div class="col-4">
                         <div class="form-group container-cep">
@@ -502,7 +502,7 @@
 
                 </div>
 
-                <div id="resumoCarrinho" class="row mr-0 ml-0 hidden">
+                <div id="resumoCarrinho" class="row mr-0 ml-0 hidden animated fadeIn">
                     <div class="col-12">
                         <p class="title-carrinh mt-4">
                             <b>Itens do pedido:</b>
@@ -544,15 +544,15 @@
                 <div class="container-total text-right mb-4">
                     <p class="mb-0">
                         <span>Subtotal:</span>
-                        <span id="lblSubTotal">R$ 95,00</span>
+                        <span id="lblSubTotal">R$ 0,00</span>
                     </p>
                     <p class="mb-0 texto-entrega">
                         <span><i class="fas fa-motorcycle"></i> Entrega:</span>
-                        <span id="lblValorEntrega">+ R$ 5,00</span>
+                        <span id="lblValorEntrega">+ R$ 0,00</span>
                     </p>
                     <p class="mb-0 texto-total">
                         <span><b>Total:</b></span>
-                        <span class="valor-total"><b id="lblValorTotal">R$ 100,00</b></span>
+                        <span class="valor-total"><b id="lblValorTotal">R$ 0,00</b></span>
                     </p>
                 </div>
 

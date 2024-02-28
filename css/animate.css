@@ -3593,8 +3593,18 @@
   animation-delay: 0.5s;
 }
 
+.animated.delay-06s {
+  -webkit-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+}
+
 .animated.delay-07s {
   -webkit-animation-delay: 0.7s;
+  animation-delay: 0.7s;
+}
+
+.animated.delay-08s {
+  -webkit-animation-delay: 0.8s;
   animation-delay: 0.7s;
 }
 

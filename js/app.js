@@ -37,7 +37,7 @@ var menu = {
     },
     components: {
         CreateMenuItemComponent: (menuItem) => `
-            <div class="col-3 mb-5">
+            <div class="col-3 mb-5 animated fadeInUp">
                 <div class="card card-item" id="${menuItem.id}">
                     <div class="img-produto">
                         <img src="${menuItem.img}"
