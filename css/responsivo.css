@@ -52,6 +52,10 @@
         padding-bottom: 50px;
     }
 
+    .text-banner {
+        margin-bottom: 25px !important;
+    }
+
     .text-banner h1 {
         font-size: 36px;
     }
@@ -61,21 +65,26 @@
     }
 
     .btn-yellow, .btn-white {
-        padding: 13px 23px;
-        font-size: 18px;
+        padding: 8px 18px;
+        font-size: 14px;
     }
 
     .btn-icon-left span.icon-left {
-        width: 43px;
-        height: 43px;
-        margin-left: -56px;
+        width: 35px;
+        height: 35px;
+        margin-left: -45px;
     }
 
     .btn-icon-left {
-        padding-left: 63px !important;
+        padding-left: 55px !important;
     }
 
     .title {
         font-size: 30px;
+    }
+
+    .btn-social {
+        width: 45px !important;
+        height: 45 !important;
     }
 }
